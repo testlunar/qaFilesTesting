@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "name": "David Lynch",
+  "email": "lynch@mail.ru",
+  "children": [
+    {
+      "name": "Laura",
+      "age": "20"
+    },
+    {
+      "name": "Olga",
+      "age": "10"
+    }
+  ],
+  "address": {
+    "street": "Prospekt",
+    "house": "23",
+    "appartment": "233",
+    "city": "Moscow",
+    "zipcode": "111111"
+  }
+}
