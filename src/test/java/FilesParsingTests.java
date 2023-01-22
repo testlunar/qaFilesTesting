@@ -73,5 +73,51 @@ public class FilesParsingTests {
             assertThat(jsonObject.glossDiv.flag).isTrue();
         }
     }
+    @Test
+    void zipXlsxParseTest() throws Exception {
+        try (
+                InputStream resource = cl.getResourceAsStream("example/sample-xlsx-file.zip");
+                ZipInputStream zis = new ZipInputStream(resource)
+        ) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                XLS xls = new XLS(zis);
 
+                assertThat(entry.getName()).contains("sample-xlsx");
+                assertThat(xls.excel.getSheetAt(0).getRow(0).getCell(2)
+                        .getStringCellValue()).contains("Last Name");
+            }
+        }
+    }
+
+    @Test
+    void zipCSVParseTest() throws Exception {
+        try (
+                InputStream resource = cl.getResourceAsStream("example/qa_guru_csv.zip");
+                ZipInputStream zis = new ZipInputStream(resource)
+        ) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                   CSVReader csv = new CSVReader(new InputStreamReader(zis));
+                    List<String[]> content = csv.readAll();
+                    assertThat(content.get(0)[1]).contains("lesson");
+            }
+        }
+    }
+
+    @Test
+    void zipPdfParseTest() throws Exception {
+        try (
+                InputStream resource = cl.getResourceAsStream("example/AppointmentLetter_pdf.zip");
+                ZipInputStream zis = new ZipInputStream(resource)
+        ) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                PDF pdf = new PDF(zis);
+
+                assertThat(entry.getName()).contains("AppointmentLetter.pdf");
+                assertThat(pdf.text).contains("Визовый центр BLS");
+            }
+        }
+    }
 }
